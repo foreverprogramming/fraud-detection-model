@@ -1,0 +1,1 @@
+# Aquí va la lógica de extracción y creación de características
