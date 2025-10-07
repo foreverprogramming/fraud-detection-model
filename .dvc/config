@@ -2,4 +2,4 @@
     remote = drivestorage
 ['remote "drivestorage"']
     url = gdrive://1a9HinQW5lBunf967Iw3kJn2NOijQbvG2
-    gdrive_client_id = 678581757513-6i5phop1quocngl2ka45uhhdal0sm413.apps.googleusercontent.com
+    gdrive_use_service_account = true
