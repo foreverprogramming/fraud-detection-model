@@ -34,6 +34,7 @@ jobs:
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
+          project_id: '${{ env.PROJECT_ID }}'
           # NOTE: If using a pre-built image, update the image name below:
 
           image: 'Dockerfile'
