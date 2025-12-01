@@ -37,11 +37,10 @@ jobs:
           echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
 
       - name: 'Build and push container image'
-        uses: 'google-github-actions/build@v0'
-        with:
-          project_id: '${{ env.PROJECT_ID }}'
-          image: '${{ env.IMAGE }}'
-          dockerfile: 'Dockerfile'
+        run: |-
+          DOCKER_TAG="$${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+          docker build --tag "${DOCKER_TAG}" .
+          docker push "${DOCKER_TAG}"
 
       - id: deploy
         name: 'Deploy to Cloud Run'
