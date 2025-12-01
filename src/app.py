@@ -17,7 +17,7 @@ def load_data(path):
     return X, y, numeric_cols
 
 app = FastAPI(title="NeoPay AntiFraude API", version="0.1.0")
-model = pickle.load(open('artifacts/model.pkl', 'rb'))
+model = pickle.load(open('src/model.pkl', 'rb'))
 
 @app.get("/health")
 def health():
