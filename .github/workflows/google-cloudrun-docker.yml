@@ -9,6 +9,8 @@ env:
   REGION: 'europe-west2'
   SERVICE: 'fraud-detection-model'
   WORKLOAD_IDENTITY_PROVIDER: 'projects/390826133051/locations/global/workloadIdentityPools/github/providers/my-repo'
+  # Set this to the service account you created (replace with your actual SA)
+  SERVICE_ACCOUNT: 'gha-deployer@peaceful-harbor-476816-p4.iam.gserviceaccount.com'
 
 jobs:
   deploy:
@@ -20,26 +22,35 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: 'actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332' # actions/checkout@v4
+        uses: 'actions/checkout@v4'
 
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@f112390a2df9932162083945e46d439060d66ec2' # google-github-actions/auth@v2
+        uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
+          service_account: '${{ env.SERVICE_ACCOUNT }}'
+
+      - name: 'Set image name'
+        run: |
+          IMAGE="gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+          echo "IMAGE=${IMAGE}" >> $GITHUB_ENV
+
+      - name: 'Build and push container image'
+        uses: 'google-github-actions/build@v0'
+        with:
+          project_id: '${{ env.PROJECT_ID }}'
+          image: '${{ env.IMAGE }}'
+          dockerfile: 'Dockerfile'
 
       - name: 'Deploy to Cloud Run'
-
-        uses: 'google-github-actions/deploy-cloudrun@33553064113a37d688aa6937bacbdc481580be17' # google-github-actions/deploy-cloudrun@v2
+        uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
           project_id: '${{ env.PROJECT_ID }}'
-          # NOTE: If using a pre-built image, update the image name below:
+          image: '${{ env.IMAGE }}'
+          allow_unauthenticated: true
 
-          image: 'Dockerfile'
-      # If required, use the Cloud Run URL output in later steps
-      - name: 'Show output'
-        run: |2-
-
-          echo ${{ steps.deploy.outputs.url }}
+      - name: 'Show Cloud Run URL'
+        run: echo "Cloud Run URL: ${{ steps.deploy.outputs.url }}"
