@@ -1,3 +1,0 @@
-Aquí van todas las dependencias del proyecto. 
-Ejecutar `pip install -r src/requirements.txt` para instalarlas.
-BORRAR ESTAS LÍNEAS ANTES DE USAR ESTE ARCHIVO
