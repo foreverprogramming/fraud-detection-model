@@ -2,8 +2,7 @@ name: 'Build and Deploy to Cloud Run'
 
 on:
   push:
-    branches:
-      - '"master"'
+    branches: ["master"]
 
 env:
   PROJECT_ID: 'peaceful-harbor-476816-p4'
