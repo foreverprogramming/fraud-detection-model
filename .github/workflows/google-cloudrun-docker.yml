@@ -8,7 +8,7 @@ env:
   PROJECT_ID: 'peaceful-harbor-476816-p4'
   REGION: 'europe-west2'
   SERVICE: 'fraud-detection-model'
-  WORKLOAD_IDENTITY_PROVIDER: 'projects/390826133051/locations/global/workloadIdentityPools/github'
+  WORKLOAD_IDENTITY_PROVIDER: 'projects/390826133051/locations/global/workloadIdentityPools/github/subject/repo:foreverprogramming/fraud-detection-model:ref:refs/heads/*'
   # Set this to the service account you created (replace with your actual SA)
   SERVICE_ACCOUNT: 'gha-deployer@peaceful-harbor-476816-p4.iam.gserviceaccount.com'
 
